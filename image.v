@@ -1,13 +1,22 @@
 module image (
   input wire [9:0] x,
+  input wire [9:0] y,
+  input wire clk,
+
   output wire [7:0] r,
   output wire [7:0] g,
   output wire [7:0] b
 );
 
-  wire active = ~x[9]; 
-assign r[7:0] = (active & ~x[8]) ? 8'hFF : 8'h00;
-assign g[7:0] = (active & ~x[7]) ? 8'hFF : 8'h00;
-assign b[7:0] = (active & ~x[6]) ? 8'hFF : 8'h00;
+  reg [25:0] frame_cnt = 26'd0;
+
+  always @(posedge clk) begin
+    frame_cnt <= frame_cnt + 26'd1;
+  end
+
+  wire [7:0] t = frame_cnt[24:17];
+  assign r = (x[9:2] ^ y[8:1]) + t;
+  assign g = ((x[9:2] + t) ^ y[8:1]);
+  assign b = (x[9:2] ^ (y[8:1] + t));
 
 endmodule

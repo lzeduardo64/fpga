@@ -14,6 +14,7 @@ module top (
     wire vsync;
     wire visible;
     wire [9:0] x;
+    wire [9:0] y;
 
     blinky my_blink (
         .clk(b_clk),
@@ -32,7 +33,8 @@ module top (
         .hsync(hsync),
         .vsync(vsync),
         .visible(visible),
-        .x(x)
+        .x(x),
+        .y(y)
     );
 
     wire [7:0] r_data;
@@ -41,6 +43,8 @@ module top (
 
     image image (
         .x(x),
+        .y(y),
+        .clk(p_clk),
         .r(r_data),
         .g(g_data),
         .b(b_data)

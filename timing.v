@@ -28,6 +28,11 @@ localparam V_TOTAL = V_VISIBLE + V_FRONT + V_SYNC + V_BACK;
 localparam V_SYNC_START = V_VISIBLE + V_FRONT;
 localparam V_SYNC_END = V_VISIBLE + V_FRONT + V_SYNC;
 
+initial begin
+    x = 10'd0;
+    y = 10'd0;
+end
+
 always @(posedge clk) begin 
   if (x == H_TOTAL - 1) begin
     x <= 0;

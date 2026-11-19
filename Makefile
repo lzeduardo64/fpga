@@ -21,7 +21,7 @@ $(BUILD)/gate_pnr.json: $(BUILD)/gate.json gate.cst
 $(BUILD)/gate.fs: $(BUILD)/gate_pnr.json
 	gowin_pack -d GW2A-18C -o $@ $^
 
-.PHONY: upload flash clean
+.PHONY: upload flash clean test
 
 upload: $(BUILD)/gate.fs
 	openFPGALoader -b tangnano20k $^
@@ -31,3 +31,7 @@ flash: $(BUILD)/gate.fs
 
 clean:
 	rm -rf $(BUILD)
+
+test:
+	iverilog -o test_bench.vvp test_bench.v timing.v image.v
+	vvp test_bench.vvp
